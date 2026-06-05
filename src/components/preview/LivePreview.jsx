@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useResumeStore from '../../store/resumeStore';
 
@@ -11,6 +11,12 @@ import StudentPro from '../templates/StudentPro';
 const LivePreview = () => {
   const storeState = useResumeStore();
   const { selectedTemplate } = storeState;
+
+  useEffect(() => {
+    if (storeState.personal.photo) {
+      console.log('preview updated');
+    }
+  }, [storeState.personal.photo]);
 
   const getTemplateComponent = () => {
     switch (selectedTemplate) {

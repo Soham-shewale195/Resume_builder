@@ -13,6 +13,7 @@ const PersonalInfo = () => {
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      console.log('file selected', file.name);
       if (file.size > 2 * 1024 * 1024) {
         alert('File is too large. Please select an image under 2MB.');
         return;
@@ -21,6 +22,7 @@ const PersonalInfo = () => {
       reader.onloadend = () => {
         const img = new Image();
         img.onload = () => {
+          console.log('image loaded');
           const canvas = document.createElement('canvas');
           const maxDim = 300;
           let width = img.width;
@@ -44,7 +46,11 @@ const PersonalInfo = () => {
           ctx.drawImage(img, 0, 0, width, height);
           
           const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+          console.log('canvas compression complete');
           updatePersonal('photo', compressedDataUrl);
+          console.log('store updated');
+          
+          if (fileInputRef.current) fileInputRef.current.value = '';
         };
         img.src = reader.result;
       };
@@ -67,6 +73,7 @@ const PersonalInfo = () => {
         </div>
         <div>
           <button 
+            type="button"
             onClick={() => fileInputRef.current?.click()}
             className="text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-md transition-colors"
           >
@@ -76,7 +83,7 @@ const PersonalInfo = () => {
             type="file" 
             ref={fileInputRef} 
             onChange={handlePhotoUpload} 
-            accept="image/*" 
+            accept="image/png, image/jpeg, image/jpg, image/webp" 
             className="hidden" 
           />
           <p className="text-xs text-slate-500 mt-1">Recommended: Square image, max 1MB</p>

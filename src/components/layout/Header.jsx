@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, Sparkles, CheckCircle2 } from 'lucide-react';
-import { useGeminiAI } from '../ai/useGeminiAI';
+import { FileText, CheckCircle2 } from 'lucide-react';
 
 const Header = () => {
-  const { remainingUses } = useGeminiAI();
   const [showSaved, setShowSaved] = useState(false);
 
   useEffect(() => {
@@ -40,10 +38,7 @@ const Header = () => {
                 <span>Auto-saved</span>
               </div>
             )}
-            <div className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full">
-              <Sparkles size={14} className="text-amber-500" />
-              <span>{remainingUses} AI Uses Left</span>
-            </div>
+
             <Link 
               to="/builder" 
               className="bg-primary-600 hover:bg-primary-700 text-white px-5 py-2 rounded-lg font-medium transition-colors shadow-md shadow-primary-500/20"

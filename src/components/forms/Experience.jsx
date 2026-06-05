@@ -1,12 +1,8 @@
-import { useState } from 'react';
-import { Plus, Trash2, Sparkles, Loader2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import useResumeStore from '../../store/resumeStore';
-import { useGeminiAI } from '../ai/useGeminiAI';
 
 const Experience = () => {
   const { experience, addExperience, updateExperience, removeExperience } = useResumeStore();
-  const { generateContent, loading, remainingUses } = useGeminiAI();
-  const [activeAIBullet, setActiveAIBullet] = useState({ expId: null, index: null });
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 40 }, (_, i) => currentYear - i);
@@ -16,30 +12,6 @@ const Experience = () => {
     { value: '07', label: 'Jul' }, { value: '08', label: 'Aug' }, { value: '09', label: 'Sep' },
     { value: '10', label: 'Oct' }, { value: '11', label: 'Nov' }, { value: '12', label: 'Dec' },
   ];
-
-  const handleEnhanceBullet = async (expId, index, bulletText, role) => {
-    if (!bulletText.trim()) return;
-    setActiveAIBullet({ expId, index });
-    
-    const prompt = `Rewrite this resume bullet point for a ${role || 'professional'} role.
-Current bullet: "${bulletText}".
-Requirements:
-- Attempt to include quantified outcomes or metrics if possible.
-- Use a single strong action verb at the start.
-- Stay under 20 words total.
-- Use ATS-friendly wording.
-- Do not include bullet symbols, quotes, or filler text.
-Return ONLY the rewritten bullet point.`;
-    
-    const enhanced = await generateContent(prompt);
-    if (enhanced) {
-      const exp = experience.find(e => e.id === expId);
-      const newBullets = [...exp.bullets];
-      newBullets[index] = enhanced;
-      updateExperience(expId, 'bullets', newBullets);
-    }
-    setActiveAIBullet({ expId: null, index: null });
-  };
 
   const handleBulletChange = (expId, index, text) => {
     const exp = experience.find(e => e.id === expId);
@@ -170,45 +142,20 @@ Return ONLY the rewritten bullet point.`;
           <div className="mt-4">
             <label className="block text-sm font-medium text-slate-700 mb-3">Bullet Points</label>
             <div className="space-y-4">
-              {exp.bullets.map((bullet, index) => {
-                const isGeneratingThis = activeAIBullet.expId === exp.id && activeAIBullet.index === index && loading;
-                
-                return (
+              {exp.bullets.map((bullet, index) => (
                 <div key={index} className="flex flex-col gap-2">
                   <div className="flex gap-2 items-start">
                     <span className="mt-2 text-slate-400 font-bold">•</span>
-                    {isGeneratingThis ? (
-                      <div className="flex-1 h-[76px] bg-slate-200 animate-pulse rounded-lg border border-slate-300"></div>
-                    ) : (
-                      <textarea 
-                        rows={3}
-                        value={bullet}
-                        onChange={(e) => handleBulletChange(exp.id, index, e.target.value)}
-                        className="flex-1 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none resize-y"
-                        placeholder="Developed X using Y which achieved Z..."
-                      />
-                    )}
-                  </div>
-                  <div className="flex justify-end">
-                    <div className="group relative">
-                      <button
-                        onClick={() => handleEnhanceBullet(exp.id, index, bullet, exp.role)}
-                        disabled={loading || !bullet.trim()}
-                        className="flex items-center gap-1.5 text-xs bg-violet-600 text-white hover:bg-violet-700 px-3 min-h-[44px] rounded-lg transition-colors font-medium disabled:opacity-50"
-                      >
-                        {isGeneratingThis ? 
-                          <Loader2 size={14} className="animate-spin" /> : 
-                          <Sparkles size={14} />
-                        }
-                        <span>✨ Improve this bullet</span>
-                      </button>
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-800 text-white text-xs py-1 px-2 rounded pointer-events-none z-10">
-                        {remainingUses} AI uses left today
-                      </div>
-                    </div>
+                    <textarea 
+                      rows={3}
+                      value={bullet}
+                      onChange={(e) => handleBulletChange(exp.id, index, e.target.value)}
+                      className="flex-1 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none resize-y"
+                      placeholder="Developed X using Y which achieved Z..."
+                    />
                   </div>
                 </div>
-              )})}
+              ))}
             </div>
           </div>
         </div>

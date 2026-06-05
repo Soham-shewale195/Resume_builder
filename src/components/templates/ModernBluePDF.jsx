@@ -1,4 +1,4 @@
-import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Font, Image, Link } from '@react-pdf/renderer';
 
 // Note: React-PDF requires absolute or remote URLs for Images, or base64.
 // If personal.photo is a base64 string or remote URL, it will work.
@@ -188,9 +188,11 @@ const styles = StyleSheet.create({
   projectLinkRow: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 10,
     marginTop: 2,
     marginBottom: 2,
+  },
+  projectLinkWrapper: {
+    marginRight: 10,
   },
   projectLink: {
     fontSize: 8,
@@ -406,8 +408,8 @@ const ModernBluePDF = ({ personal, summary, experience, education, skills, proje
                   
                   {(proj.liveUrl || proj.githubUrl) && (
                     <View style={styles.projectLinkRow}>
-                      {proj.liveUrl && <Link src={proj.liveUrl} style={styles.projectLink}>Live Link</Link>}
-                      {proj.githubUrl && <Link src={proj.githubUrl} style={styles.projectLink}>GitHub</Link>}
+                      {proj.liveUrl ? <View style={styles.projectLinkWrapper}><Link src={proj.liveUrl} style={styles.projectLink}>Live Link</Link></View> : null}
+                      {proj.githubUrl ? <Link src={proj.githubUrl} style={styles.projectLink}>GitHub</Link> : null}
                     </View>
                   )}
                   
@@ -431,7 +433,7 @@ const ModernBluePDF = ({ personal, summary, experience, education, skills, proje
               <View style={styles.bulletList}>
                 {certifications && certifications.length > 0 && certifications.map(cert => (
                   <View key={cert.id} style={styles.bulletItem}>
-                    <Text style={{...styles.bulletPoint, color: '#2563EB'}}>•</Text>
+                    <Text style={[styles.bulletPoint, { color: '#2563EB' }]}>•</Text>
                     <Text style={styles.achievementText}>
                       <Text style={{ fontWeight: 'bold', color: '#1e293b' }}>{cert.name}</Text> - {cert.issuer} {cert.date && `(${formatMonthYear(cert.date)})`}
                     </Text>
@@ -443,7 +445,7 @@ const ModernBluePDF = ({ personal, summary, experience, education, skills, proje
                   if (!text) return null;
                   return (
                     <View key={`ach-${idx}`} style={styles.bulletItem}>
-                      <Text style={{...styles.bulletPoint, color: '#2563EB'}}>•</Text>
+                      <Text style={[styles.bulletPoint, { color: '#2563EB' }]}>•</Text>
                       <Text style={styles.achievementText}>{text}</Text>
                     </View>
                   );

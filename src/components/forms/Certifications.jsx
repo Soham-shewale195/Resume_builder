@@ -4,6 +4,15 @@ import useResumeStore from '../../store/resumeStore';
 const Certifications = () => {
   const { certifications, addCertification, updateCertification, removeCertification } = useResumeStore();
 
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 40 }, (_, i) => currentYear - i);
+  const months = [
+    { value: '01', label: 'Jan' }, { value: '02', label: 'Feb' }, { value: '03', label: 'Mar' },
+    { value: '04', label: 'Apr' }, { value: '05', label: 'May' }, { value: '06', label: 'Jun' },
+    { value: '07', label: 'Jul' }, { value: '08', label: 'Aug' }, { value: '09', label: 'Sep' },
+    { value: '10', label: 'Oct' }, { value: '11', label: 'Nov' }, { value: '12', label: 'Dec' },
+  ];
+
   return (
     <div className="space-y-4">
       {certifications.map((cert) => (
@@ -39,12 +48,30 @@ const Certifications = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Date</label>
-              <input 
-                type="month" 
-                value={cert.date} 
-                onChange={(e) => updateCertification(cert.id, 'date', e.target.value)}
-                className="form-input" 
-              />
+              <div className="flex gap-2">
+                <select 
+                  value={(cert.date || '').split('-')[1] || ''} 
+                  onChange={(e) => {
+                    const year = (cert.date || '').split('-')[0] || '';
+                    updateCertification(cert.id, 'date', year ? `${year}-${e.target.value}` : `-${e.target.value}`);
+                  }}
+                  className="form-input bg-white w-1/2 px-2"
+                >
+                  <option value="">Month</option>
+                  {months.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+                </select>
+                <select 
+                  value={(cert.date || '').split('-')[0] || ''} 
+                  onChange={(e) => {
+                    const month = (cert.date || '').split('-')[1] || '';
+                    updateCertification(cert.id, 'date', month ? `${e.target.value}-${month}` : `${e.target.value}-`);
+                  }}
+                  className="form-input bg-white w-1/2 px-2"
+                >
+                  <option value="">Year</option>
+                  {years.map(y => <option key={y} value={y}>{y}</option>)}
+                </select>
+              </div>
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-slate-700 mb-1">Credential URL <span className="text-slate-400 font-normal">(Optional)</span></label>

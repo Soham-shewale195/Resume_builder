@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { FileText, Sparkles, ShieldCheck, Download, CheckCircle2, Eye, LayoutGrid, UserX, ChevronRight, ChevronDown, Pencil, Palette, ArrowDownToLine } from 'lucide-react';
+import { FileText, ShieldCheck, Download, CheckCircle2, Eye, LayoutGrid, UserX, ChevronRight, ChevronDown, Pencil, Palette, ArrowDownToLine } from 'lucide-react';
 import { useState } from 'react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
@@ -13,8 +13,7 @@ const faqs = [
   { q: 'Is it ATS friendly?', a: 'Yes. All four templates are designed to be parsed correctly by Applicant Tracking Systems (ATS). The ATS Classic template, in particular, uses a single-column layout with standard headings and no complex formatting, achieving excellent ATS readability scores.' },
   { q: 'Do I need to sign up?', a: 'No sign-up or registration is required. Simply visit the site, start filling in your details, and download your resume. There are no accounts, emails, or passwords involved.' },
   { q: 'Can I use it on mobile?', a: 'Yes. ResumeForge is fully responsive and works on smartphones, tablets, and desktops. The builder interface adapts to your screen size with a tabbed view on mobile devices, letting you switch between editing and previewing your resume.' },
-  { q: 'How many templates are available?', a: 'ResumeForge currently offers four professionally designed templates: ATS Classic (single-column, no-frills), Modern Blue (two-column with photo), Minimal (clean whitespace-focused), and Student Pro (optimized for freshers and students with limited experience).' },
-  { q: 'Can AI write my resume?', a: 'ResumeForge includes an AI writing assistant powered by Google Gemini. It can generate professional summaries, improve your experience bullet points, and enhance project descriptions. You get up to 10 free AI generations per day.' }
+  { q: 'How many templates are available?', a: 'ResumeForge currently offers four professionally designed templates: ATS Classic (single-column, no-frills), Modern Blue (two-column with photo), Minimal (clean whitespace-focused), and Student Pro (optimized for freshers and students with limited experience).' }
 ];
 
 const Home = () => {
@@ -55,10 +54,7 @@ const Home = () => {
           <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-500/20 blur-3xl"></div>
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-sm font-medium mb-8">
-              <Sparkles size={16} className="text-amber-400" />
-              <span>Now powered by Google Gemini AI</span>
-            </div>
+
             
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
               Build Your Resume in Minutes <br className="hidden md:block" />
@@ -106,7 +102,7 @@ const Home = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 { icon: Eye, color: 'blue', title: 'Live Preview', desc: 'See every change reflected instantly on a pixel-perfect A4 preview. No need to download to check your formatting.' },
-                { icon: Sparkles, color: 'amber', title: 'AI-Powered Writing', desc: 'Stuck on what to write? Our Gemini AI rewrites bullet points, generates summaries, and enhances project descriptions.' },
+                { icon: FileText, color: 'amber', title: 'Professional Resume Builder', desc: 'Create a job-winning resume in minutes with our intuitive, easy-to-use interface. No formatting struggles, just pure content creation.' },
                 { icon: ShieldCheck, color: 'green', title: 'ATS Friendly', desc: 'Templates designed to pass Applicant Tracking Systems. Standard fonts, clean layouts, and parseable section headers.' },
                 { icon: Download, color: 'purple', title: 'Free PDF Download', desc: 'Download unlimited, pixel-perfect PDF resumes. No watermarks on the PDF, no "premium" traps, no hidden charges.' },
                 { icon: LayoutGrid, color: 'rose', title: '4 Professional Templates', desc: 'Choose from ATS Classic, Modern Blue, Minimal, and Student Pro — each optimized for different career stages.' },

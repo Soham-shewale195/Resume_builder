@@ -14,9 +14,11 @@
   .glass-panel {
     @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
   }
+
   .form-input {
     @apply w-full h-[44px] px-3 text-sm bg-slate-50 border border-slate-200 rounded-lg outline-none transition-all;
   }
+
   .form-input:focus {
     @apply border-primary-600 ring-[3px] ring-primary-100;
   }
